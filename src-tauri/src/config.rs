@@ -86,6 +86,7 @@ pub enum Key {
     Down,
     Backspace,
     Delete,
+    Insert,
     Escape,
     Enter,
     Tab,
@@ -130,6 +131,7 @@ fn parse_key(token: &str) -> Result<Key, String> {
         "down" => Ok(Key::Down),
         "backspace" | "bs" => Ok(Key::Backspace),
         "delete" | "del" => Ok(Key::Delete),
+        "insert" | "ins" => Ok(Key::Insert),
         "escape" | "esc" => Ok(Key::Escape),
         "enter" | "return" => Ok(Key::Enter),
         "tab" => Ok(Key::Tab),
@@ -288,7 +290,7 @@ bindings:
       - shift-end
       - ctrl-x
   ctrl-w: ctrl-x
-  ctrl-y: ctrl-v
+  ctrl-y: shift-insert
   ctrl-g: escape
 "#;
 
@@ -307,9 +309,9 @@ mod tests {
 
     #[test]
     fn parses_chord_modifiers() {
-        let chord: KeyChord = "ctrl-shift-end".parse().unwrap();
+        let chord: KeyChord = "ctrl-shift-insert".parse().unwrap();
         assert!(chord.modifiers.ctrl);
         assert!(chord.modifiers.shift);
-        assert_eq!(chord.key, Key::End);
+        assert_eq!(chord.key, Key::Insert);
     }
 }

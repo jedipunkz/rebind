@@ -111,7 +111,7 @@ bindings:
       - shift-end
       - ctrl-x
   ctrl-w: ctrl-x
-  ctrl-y: ctrl-v
+  ctrl-y: shift-insert
   ctrl-g: escape
 ```
 
@@ -155,7 +155,7 @@ Examples:
 | `ctrl-d` | `delete` | delete forward |
 | `ctrl-k` | `shift-end`, `ctrl-x` | kill to end of line by selecting and cutting |
 | `ctrl-w` | `ctrl-x` | cut current selection |
-| `ctrl-y` | `ctrl-v` | yank from clipboard |
+| `ctrl-y` | `shift-insert` | yank from clipboard |
 | `ctrl-g` | `escape` | cancel |
 
 `ctrl-k`, `ctrl-w`, and `ctrl-y` intentionally use the system clipboard because common Windows controls do not expose a universal kill ring API.
