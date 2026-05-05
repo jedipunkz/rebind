@@ -51,17 +51,13 @@ impl Config {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
-pub enum BindingAction {
-    KeySequence { chords: Vec<KeyChord> },
-    Paste,
+pub struct BindingAction {
+    chords: Vec<KeyChord>,
 }
 
 impl BindingAction {
-    pub fn chords(&self) -> Option<&[KeyChord]> {
-        match self {
-            Self::KeySequence { chords } => Some(chords),
-            Self::Paste => None,
-        }
+    pub fn chords(&self) -> &[KeyChord] {
+        &self.chords
     }
 }
 
@@ -244,20 +240,14 @@ fn normalize(raw: RawConfig) -> Result<Config, ConfigError> {
                 reason,
             })?;
 
-        let action = match action {
-            RawAction::Chord(chord) if chord.trim().eq_ignore_ascii_case("paste") => {
-                BindingAction::Paste
-            }
-            RawAction::Chord(chord) => BindingAction::KeySequence {
-                chords: vec![parse_action_chord(&binding, &chord)?],
-            },
+        let chords = match action {
+            RawAction::Chord(chord) => vec![parse_action_chord(&binding, &chord)?],
             RawAction::Sequence(sequence) => sequence
                 .into_iter()
                 .map(|chord| parse_action_chord(&binding, &chord))
-                .collect::<Result<Vec<_>, _>>()
-                .map(|chords| BindingAction::KeySequence { chords })?,
+                .collect::<Result<Vec<_>, _>>()?,
         };
-        bindings.insert(source, action);
+        bindings.insert(source, BindingAction { chords });
     }
 
     Ok(Config {
@@ -298,7 +288,7 @@ bindings:
       - shift-end
       - ctrl-x
   ctrl-w: ctrl-x
-  ctrl-y: paste
+  ctrl-y: ctrl-v
   ctrl-g: escape
 "#;
 
@@ -313,28 +303,6 @@ mod tests {
         assert!(config.enabled);
         assert!(config.should_ignore_app("code.EXE"));
         assert!(config.action_for(&"ctrl-a".parse().unwrap()).is_some());
-        assert_eq!(
-            config.action_for(&"ctrl-y".parse().unwrap()),
-            Some(&BindingAction::Paste)
-        );
-    }
-
-    #[test]
-    fn still_accepts_ctrl_v_as_a_key_sequence() {
-        let raw: RawConfig = serde_yaml::from_str(
-            r#"version: 1
-bindings:
-  ctrl-y: ctrl-v
-"#,
-        )
-        .unwrap();
-        let config = normalize(raw).unwrap();
-        assert_eq!(
-            config
-                .action_for(&"ctrl-y".parse().unwrap())
-                .and_then(BindingAction::chords),
-            Some(["ctrl-v".parse::<KeyChord>().unwrap()].as_slice())
-        );
     }
 
     #[test]

@@ -1,4 +1,4 @@
-use crate::config::{BindingAction, KeyChord, Modifiers};
+use crate::config::{KeyChord, Modifiers};
 
 #[cfg(windows)]
 mod imp {
@@ -59,37 +59,6 @@ mod imp {
         }
 
         sent
-    }
-
-    pub fn send_paste(source: Modifiers) -> bool {
-        let released = Modifiers {
-            ctrl: false,
-            shift: source.shift,
-            alt: source.alt,
-            win: source.win,
-        };
-        let press_ctrl = !source.ctrl;
-
-        let mut inputs = Vec::new();
-        push_modifiers(&mut inputs, released, true);
-        if press_ctrl {
-            inputs.push(key_input(VK_CONTROL, false));
-        }
-        inputs.push(key_input(VIRTUAL_KEY('V' as u16), false));
-        inputs.push(key_input(VIRTUAL_KEY('V' as u16), true));
-        if press_ctrl {
-            inputs.push(key_input(VK_CONTROL, true));
-        }
-        push_modifiers(&mut inputs, released, false);
-
-        unsafe {
-            SendInput(
-                &inputs,
-                std::mem::size_of::<INPUT>()
-                    .try_into()
-                    .expect("INPUT size fits i32"),
-            ) == inputs.len() as u32
-        }
     }
 
     fn push_modifiers(inputs: &mut Vec<INPUT>, modifiers: Modifiers, key_up: bool) {
@@ -156,17 +125,8 @@ mod imp {
     pub fn send_with_neutralized_modifiers(_chords: &[KeyChord], _source: Modifiers) -> bool {
         false
     }
-
-    pub fn send_paste(_source: Modifiers) -> bool {
-        false
-    }
 }
 
-pub fn send_action(action: &BindingAction, source_modifiers: Modifiers) -> bool {
-    match action {
-        BindingAction::KeySequence { chords } => {
-            imp::send_with_neutralized_modifiers(chords, source_modifiers)
-        }
-        BindingAction::Paste => imp::send_paste(source_modifiers),
-    }
+pub fn send_action(chords: &[KeyChord], source_modifiers: Modifiers) -> bool {
+    imp::send_with_neutralized_modifiers(chords, source_modifiers)
 }

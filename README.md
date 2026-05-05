@@ -80,7 +80,7 @@ bindings:
       - shift-end
       - ctrl-x
   ctrl-w: ctrl-x
-  ctrl-y: paste
+  ctrl-y: ctrl-v
   ctrl-g: escape
 ```
 
