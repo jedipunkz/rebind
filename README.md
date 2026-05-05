@@ -78,7 +78,7 @@ bindings:
   ctrl-k:
     sequence:
       - shift-end
-      - ctrl-x
+      - shift-delete
   ctrl-w: ctrl-x
   ctrl-y: shift-insert
   ctrl-g: escape
