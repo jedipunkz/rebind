@@ -1,12 +1,14 @@
 # Rebind
 
-Rebind is a Windows tray resident application that provides basic Emacs-like keybindings in ordinary Windows applications.
+<p align="center">
+  <img src="./rebind.png" alt="UnNatural icon" width="128">
+</p>
+
+Rebind is a Windows tray application that adds Emacs-like keybindings to ordinary Windows apps.
 
 ## Installation
 
-Download the Windows binary from the GitHub Releases page and place it under `C:\Program Files\rebind`.
-
-Recommended layout:
+Download the Windows binary from the GitHub Releases page and place it in any folder. To install under `C:\Program Files\rebind`, use the following layout:
 
 ```text
 C:\Program Files\rebind\
@@ -51,6 +53,25 @@ After placing both files, run:
 C:\Program Files\rebind\rebind.exe
 ```
 
+## Usage
+
+Run `rebind.exe`. Rebind starts without showing a main window and stays in the system tray. Use the tray menu to enable or disable key remapping, reload the config, open the config file, or quit the app.
+
+Default keybindings:
+
+| Key | Action |
+| --- | --- |
+| `ctrl-a` | Move to beginning of line |
+| `ctrl-e` | Move to end of line |
+| `ctrl-b` / `ctrl-f` | Move left / right |
+| `ctrl-p` / `ctrl-n` | Move up / down |
+| `ctrl-h` / `ctrl-d` | Backspace / Delete |
+| `ctrl-k` | Cut from cursor to end of line |
+| `ctrl-w` / `ctrl-y` | Cut / paste |
+| `ctrl-g` | Escape |
+
+To change the bindings, edit `rebind.yaml` next to the executable and select `Reload config` from the tray menu.
+
 ## Configuration
 
 `rebind.yaml` must be placed in the same directory as `rebind.exe`.
@@ -71,4 +92,10 @@ For a release build:
 
 ```bash
 cargo build --release
+```
+
+The executable is generated at `target/release/rebind.exe`. To create an installer or bundle, install the Tauri CLI and run:
+
+```bash
+cargo tauri build
 ```
