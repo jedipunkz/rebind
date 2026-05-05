@@ -1,0 +1,20 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Rebind",
+  "version": "0.1.0",
+  "identifier": "dev.thirai.rebind",
+  "build": {
+    "frontendDist": "../ui"
+  },
+  "app": {
+    "windows": [],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": []
+  }
+}
