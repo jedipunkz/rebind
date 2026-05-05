@@ -2,42 +2,42 @@
 
 ![Rebind](./rebind.png)
 
-Rebind は、Windows の通常アプリで Emacs 風のキーバインドを使うための常駐トレイアプリです。
+Rebind is a Windows tray application that adds Emacs-like keybindings to ordinary Windows apps.
 
-## インストール
+## Installation
 
-ビルド済みの `Rebind` を任意のフォルダに配置して起動します。初回起動時に、実行ファイルと同じフォルダへ `rebind.yaml` が自動生成されます。
+Place the built `Rebind` executable in any folder and run it. On first launch, Rebind creates `rebind.yaml` in the same folder as the executable.
 
-ソースからビルドする場合:
+To build from source:
 
 ```bash
 cargo build --release
 ```
 
-生成された実行ファイルは `target/release/rebind.exe` です。インストーラーやバンドルを作る場合は、Tauri CLI を入れてから実行します。
+The executable is generated at `target/release/rebind.exe`. To create an installer or bundle, install the Tauri CLI and run:
 
 ```bash
 cargo tauri build
 ```
 
-## 使い方
+## Usage
 
-`rebind.exe` を起動するとメインウィンドウは表示されず、タスクトレイに常駐します。トレイメニューから有効化、無効化、設定の再読み込み、設定ファイルを開く、終了ができます。
+Run `rebind.exe`. Rebind starts without showing a main window and stays in the system tray. Use the tray menu to enable or disable key remapping, reload the config, open the config file, or quit the app.
 
-既定では次のようなキーが使えます。
+Default keybindings:
 
-| キー | 動作 |
+| Key | Action |
 | --- | --- |
-| `ctrl-a` | 行頭へ移動 |
-| `ctrl-e` | 行末へ移動 |
-| `ctrl-b` / `ctrl-f` | 左 / 右へ移動 |
-| `ctrl-p` / `ctrl-n` | 上 / 下へ移動 |
+| `ctrl-a` | Move to beginning of line |
+| `ctrl-e` | Move to end of line |
+| `ctrl-b` / `ctrl-f` | Move left / right |
+| `ctrl-p` / `ctrl-n` | Move up / down |
 | `ctrl-h` / `ctrl-d` | Backspace / Delete |
-| `ctrl-k` | カーソル位置から行末まで切り取り |
-| `ctrl-w` / `ctrl-y` | 切り取り / 貼り付け |
+| `ctrl-k` | Cut from cursor to end of line |
+| `ctrl-w` / `ctrl-y` | Cut / paste |
 | `ctrl-g` | Escape |
 
-設定を変える場合は、実行ファイルと同じフォルダの `rebind.yaml` を編集し、トレイメニューから `Reload config` を実行してください。
+To change the bindings, edit `rebind.yaml` next to the executable and select `Reload config` from the tray menu.
 
 ```yaml
 version: 1
@@ -66,4 +66,4 @@ bindings:
   ctrl-g: escape
 ```
 
-`ignore_app` には、Rebind を無効にしたいアプリの実行ファイル名を指定します。
+Use `ignore_app` to list executable names where Rebind should stay disabled.
