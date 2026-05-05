@@ -1,6 +1,9 @@
 # Rebind
 
-![Rebind](./rebind.png)
+
+<p align="center">
+  <img src="./rebind.png" alt="UnNatural icon" width="128">
+</p>
 
 Rebind is a Windows tray application that adds Emacs-like keybindings to ordinary Windows apps.
 
