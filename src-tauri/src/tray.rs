@@ -1,5 +1,6 @@
 use tauri::{
     AppHandle, Manager,
+    image::Image,
     menu::{CheckMenuItem, Menu, MenuItem, PredefinedMenuItem},
     tray::TrayIconBuilder,
 };
@@ -10,6 +11,7 @@ const MENU_ENABLE: &str = "enable";
 const MENU_RELOAD: &str = "reload";
 const MENU_OPEN_CONFIG: &str = "open_config";
 const MENU_QUIT: &str = "quit";
+const TRAY_ICON: Image<'_> = tauri::include_image!("./icons/rebind.png");
 
 pub fn setup(app: &AppHandle) -> tauri::Result<()> {
     let state = app.state::<std::sync::Arc<AppState>>();
@@ -28,6 +30,7 @@ pub fn setup(app: &AppHandle) -> tauri::Result<()> {
     let menu = Menu::with_items(app, &[&enable, &reload, &open_config, &separator, &quit])?;
 
     TrayIconBuilder::with_id("rebind")
+        .icon(TRAY_ICON)
         .tooltip("Rebind")
         .menu(&menu)
         .show_menu_on_left_click(true)

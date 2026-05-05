@@ -15,6 +15,9 @@
   "bundle": {
     "active": true,
     "targets": "all",
-    "icon": []
+    "icon": [
+      "icons/rebind.png",
+      "icons/icon.ico"
+    ]
   }
 }
