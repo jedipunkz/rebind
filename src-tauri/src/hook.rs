@@ -124,7 +124,7 @@ mod imp {
             return false;
         };
 
-        input::send_action(action, chord.modifiers)
+        input::send_action(action.chords(), chord.modifiers)
     }
 
     fn chord_from_vk(vk_code: u32) -> Option<KeyChord> {
