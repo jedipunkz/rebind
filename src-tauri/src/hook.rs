@@ -15,9 +15,8 @@ pub enum HookError {
 mod imp {
     use std::{
         sync::{
-            Arc, OnceLock,
             atomic::{AtomicBool, Ordering},
-            mpsc,
+            mpsc, Arc, OnceLock,
         },
         thread,
         time::Duration,
@@ -31,9 +30,8 @@ mod imp {
                 VK_LWIN, VK_MENU, VK_RCONTROL, VK_RMENU, VK_RSHIFT, VK_RWIN, VK_SHIFT,
             },
             WindowsAndMessaging::{
-                CallNextHookEx, DispatchMessageW, GetMessageW, KBDLLHOOKSTRUCT, LLKHF_INJECTED,
-                MSG, SetWindowsHookExW, TranslateMessage, WH_KEYBOARD_LL, WM_KEYDOWN,
-                WM_SYSKEYDOWN,
+                CallNextHookEx, DispatchMessageW, GetMessageW, SetWindowsHookExW, TranslateMessage,
+                KBDLLHOOKSTRUCT, LLKHF_INJECTED, MSG, WH_KEYBOARD_LL, WM_KEYDOWN, WM_SYSKEYDOWN,
             },
         },
     };
@@ -162,6 +160,9 @@ mod imp {
             }
             code if code == windows::Win32::UI::Input::KeyboardAndMouse::VK_DELETE.0 as u32 => {
                 Some(Key::Delete)
+            }
+            code if code == windows::Win32::UI::Input::KeyboardAndMouse::VK_INSERT.0 as u32 => {
+                Some(Key::Insert)
             }
             code if code == windows::Win32::UI::Input::KeyboardAndMouse::VK_ESCAPE.0 as u32 => {
                 Some(Key::Escape)
