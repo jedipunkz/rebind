@@ -9,8 +9,23 @@ Rebind is a Windows tray application that adds Emacs-like keybindings to ordinar
 
 ## Installation
 
+Download the Windows binary from the GitHub Releases page and place it under `C:\Program Files\rebind`.
+
+Recommended layout:
+
+```text
+C:\Program Files\rebind\
+  rebind.exe
+  rebind.yaml
+```
+
+Rebind reads `rebind.yaml` from the same directory as `rebind.exe`. When the application starts and `rebind.yaml` does not exist, it tries to create a default configuration file next to the executable.
+
+`C:\Program Files` is not writable by normal user permissions, so create `rebind.yaml` in advance when installing Rebind there. For example, create this file as Administrator:
+
 Place the built `Rebind` executable in any folder and run it. On first launch, Rebind creates `rebind.yaml` in the same folder as the executable.
 
+## Build
 To build from source:
 
 ```bash
