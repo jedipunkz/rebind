@@ -109,7 +109,7 @@ bindings:
   ctrl-k:
     sequence:
       - shift-end
-      - ctrl-x
+      - shift-delete
   ctrl-w: ctrl-x
   ctrl-y: shift-insert
   ctrl-g: escape
@@ -153,7 +153,7 @@ Examples:
 | `ctrl-n` | `down` | next line |
 | `ctrl-h` | `backspace` | delete backward |
 | `ctrl-d` | `delete` | delete forward |
-| `ctrl-k` | `shift-end`, `ctrl-x` | kill to end of line by selecting and cutting |
+| `ctrl-k` | `shift-end`, `shift-delete` | kill to end of line by selecting and cutting |
 | `ctrl-w` | `ctrl-x` | cut current selection |
 | `ctrl-y` | `shift-insert` | yank from clipboard |
 | `ctrl-g` | `escape` | cancel |
