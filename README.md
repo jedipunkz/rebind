@@ -82,6 +82,7 @@ bindings:
   ctrl-w: ctrl-x
   ctrl-y: shift-insert
   ctrl-g: escape
+  ctrl-s: ctrl-f
 ```
 
 Use `ignore_app` to list executable names where Rebind should stay disabled.
