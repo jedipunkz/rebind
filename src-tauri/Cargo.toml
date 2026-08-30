@@ -1,6 +1,6 @@
 [package]
 name = "rebind"
-version = "0.1.6"
+version = "0.1.7"
 description = "Windows tray resident Emacs-like keybinding remapper"
 authors = ["thirai"]
 edition = "2024"
