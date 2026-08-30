@@ -102,21 +102,22 @@ impl FromStr for KeyChord {
             return Err("empty chord".to_string());
         }
 
-        let mut modifiers = Modifiers::default();
-        let mut key = None;
+        // The last segment is always the key, so single-letter modifier aliases
+        // (`c`, `s`, `m`) never shadow the letter keys of `ctrl-c` / `ctrl-s` / `ctrl-m`.
+        let mut parts: Vec<&str> = normalized.split('-').collect();
+        let key = parse_key(parts.pop().expect("normalized is not empty"))?;
 
-        for part in normalized.split('-') {
+        let mut modifiers = Modifiers::default();
+        for part in parts {
             match part {
                 "ctrl" | "control" | "c" => modifiers.ctrl = true,
                 "shift" | "s" => modifiers.shift = true,
                 "alt" | "meta" | "m" => modifiers.alt = true,
                 "win" | "super" | "cmd" => modifiers.win = true,
-                token if key.is_none() => key = Some(parse_key(token)?),
                 token => return Err(format!("unexpected token `{token}`")),
             }
         }
 
-        let key = key.ok_or_else(|| "missing key".to_string())?;
         Ok(Self { modifiers, key })
     }
 }
@@ -305,6 +306,23 @@ mod tests {
         assert!(config.enabled);
         assert!(config.should_ignore_app("code.EXE"));
         assert!(config.action_for(&"ctrl-a".parse().unwrap()).is_some());
+    }
+
+    #[test]
+    fn parses_letter_keys_that_collide_with_modifier_aliases() {
+        for (raw, expected) in [("ctrl-s", 's'), ("ctrl-c", 'c'), ("ctrl-m", 'm')] {
+            let chord: KeyChord = raw.parse().unwrap();
+            assert!(chord.modifiers.ctrl, "{raw}");
+            assert_eq!(
+                chord.modifiers,
+                Modifiers {
+                    ctrl: true,
+                    ..Default::default()
+                },
+                "{raw}"
+            );
+            assert_eq!(chord.key, Key::Char(expected), "{raw}");
+        }
     }
 
     #[test]
